@@ -49,14 +49,14 @@ namespace StoreCS.API.Controllers
 
 
         [HttpGet("/lastClients/{nDays}")]
-        public async Task<List<ClientLastBuyers>> GetClientsWhichBuySomethingForNDays(int nDays)
+        public async Task<List<ClientLastBuyersDto>> GetClientsWhichBuySomethingForNDays(int nDays)
         {
             var startDate = DateTime.Now.AddDays(-nDays);
 
             var clients = await _uow.ClientRepository
                 .GetAllAsync(x => x.Orders.Any(o => startDate <= o.BoughtDate));
 
-            var result = clients.Select(x => new ClientLastBuyers()
+            var result = clients.Select(x => new ClientLastBuyersDto()
             {
                 Id = x.Id,
                 Name = x.FirstName,
@@ -64,6 +64,28 @@ namespace StoreCS.API.Controllers
             }).ToList();
 
             return result;
+        }
+
+        [HttpGet("/PopularCategory/{id}")]
+        public async  Task<ActionResult<List<ClientCategoryQuantityDto>>> GetPopularCategory(int id)
+        {
+            var client = await _uow.ClientRepository.GetByIdAsync(id);
+            if (client == null) return BadRequest($"There is no client with id: {id}");
+
+            var productCategories = client.Orders
+                .SelectMany(o => o.OrderItems)
+                .GroupBy(oi => oi.Product.Category)
+                .Select(group => new ClientCategoryQuantityDto()
+                {
+                    Category = group.Key?.Name,
+                    Quantity = (int)group.Sum(oi => oi.Quantity)
+                })
+                .ToList();
+            
+            if(productCategories == null) 
+                return BadRequest($"There are no product categories for client with id: {id}");
+
+            return Ok(productCategories);
         }
     }
 }

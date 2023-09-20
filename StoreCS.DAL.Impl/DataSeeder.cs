@@ -7,6 +7,7 @@ namespace StoreCS.DAL.Impl;
 
 public static class DataSeeder
 {
+    // todo дата сидер написан криво. пока что.
     public static IServiceCollection SeedData(this IServiceCollection services)
     {
         using var scope = services.BuildServiceProvider().CreateScope();

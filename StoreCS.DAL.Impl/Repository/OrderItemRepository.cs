@@ -17,9 +17,9 @@ public class OrderItemRepository : GenericRepository<int, OrderItem>, IOrderItem
 
     public override async Task<List<OrderItem>> GetAllAsync(Func<OrderItem, bool> predicate)
     {
-        List<OrderItem> items = await Task.FromResult( _dbContext.OrderItems
-            .Include(x=>x.Order)
-            .Include(x=>x.Product)
+        List<OrderItem> items = await Task.FromResult(_dbContext.OrderItems
+            .Include(x => x.Order)
+            .Include(x => x.Product)
             .Where(predicate).ToList());
         return items;
     }
