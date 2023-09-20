@@ -15,7 +15,7 @@ public static class DataSeeder
         // Check if the database exists, and if it does, don't recreate it
         if (!dbContext.Database.EnsureCreated())
         {
-            return services; 
+            return services;
         }
 
         // Seed data only if the database was just created
@@ -46,8 +46,13 @@ public static class DataSeeder
 
         var orderItem1 = new OrderItem { Product = product2, Quantity = 3 };
         var orderItem2 = new OrderItem { Product = product3, Quantity = 1 };
+        var orderItem3 = new OrderItem { Product = product1, Quantity = 2 };
 
         order1.OrderItems = new List<OrderItem> { orderItem1, orderItem2 };
+        order1.TotalPrice = CountTotalPriceForOrder(order1);
+
+        order2.OrderItems = new List<OrderItem> { orderItem3 };
+        order2.TotalPrice = CountTotalPriceForOrder(order2);
 
         dbContext.AddRange(
             order1,
@@ -81,5 +86,16 @@ public static class DataSeeder
         );
 
         dbContext.SaveChanges();
+    }
+
+    private static double CountTotalPriceForOrder(Order order)
+    {
+        double? result = 0;
+        foreach (var item in order.OrderItems)
+        {
+            result += item.Quantity * item.Product?.Price;
+        }
+
+        return (double)result;
     }
 }
