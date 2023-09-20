@@ -13,11 +13,20 @@ public static class DataSeeder
         using var scope = services.BuildServiceProvider().CreateScope();
         var dbContext = scope.ServiceProvider.GetRequiredService<StoreDbContext>();
 
-        dbContext.Database.EnsureDeleted();
+        // Check if the database exists, and if it does, don't recreate it
+        if (!dbContext.Database.EnsureCreated())
+        {
+            return services; 
+        }
 
-        // Create a new database
-        dbContext.Database.EnsureCreated();
+        // Seed data only if the database was just created
+        SeedInitialData(dbContext);
 
+        return services;
+    }
+
+    private static void SeedInitialData(StoreDbContext dbContext)
+    {
         var category1 = new ProductCategory { Name = "Category1" };
         var category2 = new ProductCategory { Name = "Category2" };
 
@@ -73,7 +82,5 @@ public static class DataSeeder
         );
 
         dbContext.SaveChanges();
-
-        return services;
     }
 }
