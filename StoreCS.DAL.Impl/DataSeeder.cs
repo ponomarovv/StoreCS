@@ -87,7 +87,8 @@ public static class DataSeeder
 
         dbContext.SaveChanges();
     }
-
+    
+    // We can create another service layer and we can create an OrderService for it, but for now it is ok. I reckon.
     private static double CountTotalPriceForOrder(Order order)
     {
         double? result = 0;
