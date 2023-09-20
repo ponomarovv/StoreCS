@@ -1,6 +1,4 @@
-﻿using System.Text.Json.Serialization;
-
-namespace StoreCS.Entities;
+﻿namespace StoreCS.Entities;
 
 public class Client
 {

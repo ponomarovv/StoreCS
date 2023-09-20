@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using StoreCS.DAL.Impl.Context;
 using StoreCS.Entities;
 
@@ -95,7 +94,7 @@ public static class DataSeeder
     private static double CountTotalPriceForOrder(Order order)
     {
         double? result = 0;
-        foreach (var item in order.OrderItems)
+        foreach (var item in order.OrderItems!)
         {
             result += item.Quantity * item.Product?.Price;
         }

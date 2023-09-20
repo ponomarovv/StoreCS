@@ -17,7 +17,11 @@ public class ClientRepository : GenericRepository<int, Client>, IClientRepositor
 
     public override async Task<List<Client>> GetAllAsync(Func<Client, bool> predicate)
     {
-        List<Client> items = await Task.FromResult(_dbContext.Clients.Include(x => x.Orders).Where(predicate).ToList());
+        List<Client> items = await Task.FromResult(_dbContext.Clients
+            .Include(x => x.Orders)
+            .ThenInclude(o => o.OrderItems)
+            .ThenInclude(oi => oi.Product.Category)
+            .Where(predicate).ToList());
         return items;
     }
 

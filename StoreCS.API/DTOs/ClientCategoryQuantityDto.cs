@@ -1,6 +1,4 @@
-﻿using StoreCS.Entities;
-
-namespace StoreCS.API.DTOs;
+﻿namespace StoreCS.API.DTOs;
 
 public class ClientCategoryQuantityDto
 {
