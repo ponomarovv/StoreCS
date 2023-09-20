@@ -63,6 +63,7 @@ public static class DataSeeder
         {
             FirstName = "FirstName1",
             BirthDate = DateTime.Today.AddYears(-20),
+            Registered =  DateTime.Now.AddYears(-10),
             Orders = new List<Order> { order1 }
         };
 
@@ -70,6 +71,7 @@ public static class DataSeeder
         {
             FirstName = "FirstName2",
             BirthDate = DateTime.Today.AddYears(-30),
+            Registered =  DateTime.Now.AddYears(-10),
             Orders = new List<Order> { order2 }
         };
 
