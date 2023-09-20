@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using StoreCS.DAL.Impl;
 using StoreCS.DAL.Impl.Context;
 using StoreCS.Entities;
+using System.Text.Json.Serialization;
 
 namespace StoreCS.API
 {
@@ -26,7 +27,9 @@ namespace StoreCS.API
 
             builder.Services.InstallRepositories();
 
-            builder.Services.AddControllers();
+            builder.Services.AddControllers().AddJsonOptions(x =>
+                x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
+            ;
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();

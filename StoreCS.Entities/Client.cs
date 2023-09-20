@@ -13,6 +13,6 @@ public class Client
     public DateTime? BirthDate { get; set; }
     public DateTime? Registered { get; set; }
 
-    [JsonIgnore]
+  
     public List<Order>? Orders { get; set; }
 }

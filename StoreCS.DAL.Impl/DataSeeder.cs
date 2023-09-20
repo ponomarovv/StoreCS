@@ -11,7 +11,7 @@ public static class DataSeeder
     {
         using var scope = services.BuildServiceProvider().CreateScope();
         var dbContext = scope.ServiceProvider.GetRequiredService<StoreDbContext>();
-
+        
         // Check if the database exists, and if it does, don't recreate it
         if (!dbContext.Database.EnsureCreated())
         {
@@ -78,7 +78,8 @@ public static class DataSeeder
         var client3 = new Client
         {
             FirstName = "FirstName3",
-            BirthDate = DateTime.Today.AddYears(-30).AddDays(2)
+            BirthDate = DateTime.Today.AddYears(-30).AddDays(2),
+            Registered = DateTime.Now.AddYears(-11)
         };
 
         dbContext.AddRange(
