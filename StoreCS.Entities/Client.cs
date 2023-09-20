@@ -1,4 +1,6 @@
-﻿namespace StoreCS.Entities;
+﻿using System.Text.Json.Serialization;
+
+namespace StoreCS.Entities;
 
 public class Client
 {
@@ -11,5 +13,6 @@ public class Client
     public DateTime? BirthDate { get; set; }
     public DateTime? Registered { get; set; }
 
+    [JsonIgnore]
     public List<Order>? Orders { get; set; }
 }

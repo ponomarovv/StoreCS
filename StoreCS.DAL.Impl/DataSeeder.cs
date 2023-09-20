@@ -18,60 +18,61 @@ public static class DataSeeder
         // Create a new database
         dbContext.Database.EnsureCreated();
 
-        // Check if the data already exists in the database
-        // if (!dbContext.Clients.Any())
+        var category1 = new ProductCategory { Name = "Category1" };
+        var category2 = new ProductCategory { Name = "Category2" };
+
+        var product1 = new Product { Name = "Product1", Price = 1, Category = category1 };
+        var product2 = new Product { Name = "Product2", Price = 2, Category = category1 };
+        var product3 = new Product { Name = "Product3", Price = 3, Category = category2 };
+
+        dbContext.AddRange(
+            category1,
+            category2,
+            product1,
+            product2,
+            product3
+        );
+
+        var order1 = new Order { BoughtDate = DateTime.Now.AddDays(-1) };
+        var order2 = new Order { BoughtDate = DateTime.Now.AddDays(-10) };
+
+        var orderItem1 = new OrderItem { Product = product2, Quantity = 3 };
+        var orderItem2 = new OrderItem { Product = product3, Quantity = 1 };
+
+        order1.OrderItems = new List<OrderItem> { orderItem1, orderItem2 };
+
+        dbContext.AddRange(
+            order1,
+            order2
+        );
+
+        var client1 = new Client
         {
-            dbContext.ProductCategories.AddRange(
-                new ProductCategory() { Name = "Category1" },
-                new ProductCategory() { Name = "Category2" }
-            );
+            FirstName = "FirstName1",
+            BirthDate = DateTime.Today.AddYears(-20),
+            Orders = new List<Order> { order1 }
+        };
 
-            dbContext.Products.AddRange(
-                new Product() { Name = "Product1", Price = 1 },
-                new Product()
-                {
-                    Name = "Product2", Price = 2, Category = dbContext.ProductCategories.FirstOrDefault(x => x.Name == "Category1")
-                },
-                new Product()
-                {
-                    Name = "Product3", Price = 3, Category = dbContext.ProductCategories.FirstOrDefault(x => x.Id == 2)
-                }
-            );
+        var client2 = new Client
+        {
+            FirstName = "FirstName2",
+            BirthDate = DateTime.Today.AddYears(-30),
+            Orders = new List<Order> { order2 }
+        };
 
-            dbContext.Orders.AddRange(
-                new Order()
-                {
-                    BoughtDate = DateTime.Now.AddDays(-1),
-                    OrderItems = new List<OrderItem>()
-                    {
-                        new OrderItem()
-                            { Product = dbContext.Products.Where(x => x.Id == 2).FirstOrDefault(), Quantity = 3 },
-                        new OrderItem()
-                            { Product = dbContext.Products.Where(x => x.Id == 3).FirstOrDefault(), Quantity = 1 },
-                    }
-                },
-                new Order() { BoughtDate = DateTime.Now.AddDays(-10), }
-            );
+        var client3 = new Client
+        {
+            FirstName = "FirstName3",
+            BirthDate = DateTime.Today.AddYears(-30).AddDays(2)
+        };
 
+        dbContext.AddRange(
+            client1,
+            client2,
+            client3
+        );
 
-            dbContext.Clients.AddRange(
-                new Client()
-                {
-                    FirstName = "FirstName1", BirthDate = DateTime.Today.AddYears(-20),
-                    Orders = dbContext.Orders.Where(o => o.Id == 1).ToList()
-                },
-                new Client()
-                {
-                    FirstName = "FirstName2", BirthDate = DateTime.Today.AddYears(-30),
-                    Orders = dbContext.Orders.Where(o => o.Id == 2).ToList()
-                },
-                new Client() { FirstName = "FirstName3", BirthDate = DateTime.Today.AddYears(-30).AddDays(2) }
-            );
-
-            // Add more seed data as needed
-
-            dbContext.SaveChanges();
-        }
+        dbContext.SaveChanges();
 
         return services;
     }
