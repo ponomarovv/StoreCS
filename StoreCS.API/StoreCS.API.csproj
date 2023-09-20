@@ -26,8 +26,4 @@
     <ProjectReference Include="..\StoreCS.DAL.Impl\StoreCS.DAL.Impl.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="DTOs\" />
-  </ItemGroup>
-
 </Project>

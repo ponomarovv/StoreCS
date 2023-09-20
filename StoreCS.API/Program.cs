@@ -22,7 +22,7 @@ namespace StoreCS.API
             builder.Services.AddDbContext<StoreDbContext>(
                 options => options.UseSqlServer(connectionString));
 
-            builder.Services.SeedData();
+   
 
 
             // Add services to the container.
@@ -33,6 +33,9 @@ namespace StoreCS.API
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+
+            builder.Services.SeedData();
+   
 
             var app = builder.Build();
 
