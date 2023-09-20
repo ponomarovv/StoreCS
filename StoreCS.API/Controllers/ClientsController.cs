@@ -82,8 +82,8 @@ namespace StoreCS.API.Controllers
                 })
                 .ToList();
             
-            if(productCategories == null) 
-                return BadRequest($"There are no product categories for client with id: {id}");
+            if(productCategories.Count == 0) 
+                return BadRequest($"There are no popular product categories for client with id: {id}");
 
             return Ok(productCategories);
         }
