@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using StoreCS.DAL.Impl;
 using StoreCS.DAL.Impl.Context;
+using StoreCS.Entities;
 
 namespace StoreCS.API
 {
@@ -20,6 +21,9 @@ namespace StoreCS.API
 
             builder.Services.AddDbContext<StoreDbContext>(
                 options => options.UseSqlServer(connectionString));
+
+            builder.Services.SeedData();
+
 
             // Add services to the container.
 

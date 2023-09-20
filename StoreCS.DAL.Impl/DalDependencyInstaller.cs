@@ -11,6 +11,9 @@ public static class DalDependencyInstaller
     public static void InstallRepositories(this IServiceCollection services)
     {
         services.AddScoped<IClientRepository, ClientRepository>();
+        services.AddScoped<IOrderRepository, OrderRepository>();
+        services.AddScoped<IProductRepository, ProductRepository>();
+        services.AddScoped<IProductCategoryRepository, ProductCategoryRepository>();
         
         services.AddScoped<IUnitOfWork, UnitOfWork>();
 
