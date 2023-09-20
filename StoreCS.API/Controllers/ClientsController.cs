@@ -28,13 +28,6 @@ namespace StoreCS.API.Controllers
         [HttpGet("{id}")]
         public async Task<Client> Get(int id)
         {
-            // List<Client> Clients = new List<Client>()
-            // {
-            //     new Client(){Id = 1, FirstName = "Oleksii"},
-            //     new Client(){Id = 2, FirstName = "Dima"}
-            //
-            // };
-
             Client result = await _uow.ClientRepository.GetByIdAsync(id);
 
             return result;
