@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using StoreCS.API.DTOs;
 using StoreCS.DAL.Abstract.Repository.Base;
 using StoreCS.Entities;
 
@@ -16,11 +17,12 @@ namespace StoreCS.API.Controllers
         {
             _uow = uow;
         }
+
         // GET: api/<ClientsController>
         [HttpGet]
         public async Task<List<Client>> GetAll()
         {
-            var result = await _uow.ClientRepository.GetAllAsync(x=>true);
+            var result = await _uow.ClientRepository.GetAllAsync(x => true);
             return result;
         }
 
@@ -32,15 +34,36 @@ namespace StoreCS.API.Controllers
 
             return result;
         }
-        
+
+        // іменинники
         [HttpGet("/birthday/{date}")]
-        public async Task<List<Client>> GetClientsByBirthday(string date)
+        public async Task<List<ClientBirthdayDto>> GetClientsByBirthday(string date)
         {
-            var result = await _uow.ClientRepository.GetAllAsync(x=>x.BirthDate.ToString("yyyy-MM-dd") == date);
+            var clients = await _uow.ClientRepository
+                .GetAllAsync(x => x.BirthDate?.ToString("yyyy-MM-dd") == date);
+
+            var result = clients.Select(x => new ClientBirthdayDto() { Id = x.Id, Name = x.FirstName }).ToList();
 
             return result;
         }
 
-       
+
+        [HttpGet("/lastClients/{nDays}")]
+        public async Task<List<ClientLastBuyers>> GetClientsWhichBuySomethingForNDays(int nDays)
+        {
+            var startDate = DateTime.Now.AddDays(-nDays);
+
+            var clients = await _uow.ClientRepository
+                .GetAllAsync(x => x.Orders.Any(o => o.BoughtDate >= startDate));
+
+            var result = clients.Select(x => new ClientLastBuyers()
+            {
+                Id = x.Id, 
+                Name = x.FirstName, 
+                LastPurchaseDate = x.Orders.LastOrDefault().BoughtDate
+            }).ToList();
+
+            return result;
+        }
     }
 }

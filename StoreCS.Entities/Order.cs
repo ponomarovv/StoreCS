@@ -3,8 +3,8 @@
 public class Order
 {
     public int Id { get; set; }
-    public DateTime BoughtData { get; set; }
-    public double TotalPrice { get; set; }
+    public DateTime? BoughtDate { get; set; }
+    public double? TotalPrice { get; set; }
 
-    public List<Product> Products { get; set; } 
+    public List<OrderItem>? OrderItems { get; set; }
 }
