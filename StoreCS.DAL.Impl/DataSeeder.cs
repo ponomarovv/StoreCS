@@ -27,8 +27,14 @@ public static class DataSeeder
 
             dbContext.Products.AddRange(
                 new Product() { Name = "Product1", Price = 1 },
-                new Product() { Name = "Product2", Price = 2 },
-                new Product() { Name = "Product3", Price = 3 }
+                new Product()
+                {
+                    Name = "Product2", Price = 2, Category = dbContext.ProductCategories.FirstOrDefault(x => x.Name == "Category1")
+                },
+                new Product()
+                {
+                    Name = "Product3", Price = 3, Category = dbContext.ProductCategories.FirstOrDefault(x => x.Id == 2)
+                }
             );
 
             dbContext.Orders.AddRange(
@@ -37,8 +43,10 @@ public static class DataSeeder
                     BoughtDate = DateTime.Now.AddDays(-1),
                     OrderItems = new List<OrderItem>()
                     {
-                        new OrderItem() { Product = dbContext.Products.Where(x => x.Id == 2).FirstOrDefault(), Quantity = 3 },
-                        new OrderItem() { Product = dbContext.Products.Where(x => x.Id == 3).FirstOrDefault(), Quantity = 1 },
+                        new OrderItem()
+                            { Product = dbContext.Products.Where(x => x.Id == 2).FirstOrDefault(), Quantity = 3 },
+                        new OrderItem()
+                            { Product = dbContext.Products.Where(x => x.Id == 3).FirstOrDefault(), Quantity = 1 },
                     }
                 },
                 new Order() { BoughtDate = DateTime.Now.AddDays(-10), }

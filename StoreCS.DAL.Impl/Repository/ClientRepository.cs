@@ -8,14 +8,16 @@ namespace StoreCS.DAL.Impl.Repository;
 
 public class ClientRepository : GenericRepository<int, Client>, IClientRepository
 {
- 
+    private readonly StoreDbContext _dbContext;
+
     public ClientRepository(StoreDbContext dbContext) : base(dbContext)
-    { 
+    {
+        _dbContext = dbContext;
     }
 
     public override async Task<List<Client>> GetAllAsync(Func<Client, bool> predicate)
     {
-        List<Client> items = await Task.FromResult( _context.Clients.Include(x=>x.Orders).Where(predicate).ToList());
+        List<Client> items = await Task.FromResult( _dbContext.Clients.Include(x=>x.Orders).Where(predicate).ToList());
         return items;
     }
 }

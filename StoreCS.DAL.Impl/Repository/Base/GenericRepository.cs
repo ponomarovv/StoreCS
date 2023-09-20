@@ -7,7 +7,7 @@ namespace StoreCS.DAL.Impl.Repository.Base;
 
 public abstract class GenericRepository<TKey, TEntity> : IGenericRepository<TKey, TEntity> where TEntity : class
 {
-    protected StoreDbContext _context;
+    private readonly StoreDbContext _context;
 
     private DbSet<TEntity> DbSet => _context.Set<TEntity>();
 
