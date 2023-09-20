@@ -26,9 +26,17 @@ namespace StoreCS.API.Controllers
 
         // GET api/<ClientsController>/5
         [HttpGet("{id}")]
-        public async Task<Client> Get(int id)
+        public async Task<Client> GetClientById(int id)
         {
             Client result = await _uow.ClientRepository.GetByIdAsync(id);
+
+            return result;
+        }
+        
+        [HttpGet("/birthday/{date}")]
+        public async Task<List<Client>> GetClientsByBirthday(string date)
+        {
+            var result = await _uow.ClientRepository.GetAllAsync(x=>x.BirthDate.ToString("yyyy-MM-dd") == date);
 
             return result;
         }
