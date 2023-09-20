@@ -54,13 +54,13 @@ namespace StoreCS.API.Controllers
             var startDate = DateTime.Now.AddDays(-nDays);
 
             var clients = await _uow.ClientRepository
-                .GetAllAsync(x => x.Orders.Any(o => o.BoughtDate >= startDate));
+                .GetAllAsync(x => x.Orders.Any(o => startDate <= o.BoughtDate));
 
             var result = clients.Select(x => new ClientLastBuyers()
             {
-                Id = x.Id, 
-                Name = x.FirstName, 
-                LastPurchaseDate = x.Orders.LastOrDefault().BoughtDate
+                Id = x.Id,
+                Name = x.FirstName,
+                LastPurchaseDate = x.Orders!.LastOrDefault()!.BoughtDate
             }).ToList();
 
             return result;

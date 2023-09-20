@@ -1,4 +1,5 @@
-﻿using StoreCS.DAL.Abstract.Repository;
+﻿using Microsoft.EntityFrameworkCore;
+using StoreCS.DAL.Abstract.Repository;
 using StoreCS.DAL.Impl.Context;
 using StoreCS.DAL.Impl.Repository.Base;
 using StoreCS.Entities;
@@ -7,7 +8,14 @@ namespace StoreCS.DAL.Impl.Repository;
 
 public class ClientRepository : GenericRepository<int, Client>, IClientRepository
 {
+ 
     public ClientRepository(StoreDbContext dbContext) : base(dbContext)
+    { 
+    }
+
+    public override async Task<List<Client>> GetAllAsync(Func<Client, bool> predicate)
     {
+        List<Client> items = await Task.FromResult( _context.Clients.Include(x=>x.Orders).Where(predicate).ToList());
+        return items;
     }
 }

@@ -34,7 +34,7 @@ namespace StoreCS.API
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
-            builder.Services.SeedData();
+            // builder.Services.SeedData();
 
             var app = builder.Build();
 
