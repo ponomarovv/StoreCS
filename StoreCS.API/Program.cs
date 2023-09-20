@@ -1,4 +1,6 @@
+using Microsoft.EntityFrameworkCore;
 using StoreCS.DAL.Impl;
+using StoreCS.DAL.Impl.Context;
 
 namespace StoreCS.API
 {
@@ -7,6 +9,17 @@ namespace StoreCS.API
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+            
+            builder.Services.AddSingleton<IConfiguration>(builder.Configuration);
+        
+            // Add secrets configuration
+            builder.Configuration.AddUserSecrets<Program>();
+
+            var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+
+
+            builder.Services.AddDbContext<StoreDbContext>(
+                options => options.UseSqlServer(connectionString));
 
             // Add services to the container.
 

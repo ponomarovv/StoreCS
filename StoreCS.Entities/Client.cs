@@ -8,8 +8,8 @@ public class Client
     public string MiddleName { get; set; } = string.Empty;
     public string LastName { get; set; } = string.Empty;
 
-    public DateOnly BirthDate { get; set; }
-    public DateOnly Registered { get; set; }
+    public DateTime BirthDate { get; set; }
+    public DateTime Registered { get; set; }
 
     public List<Order> Orders { get; set; }
 }
