@@ -22,9 +22,6 @@ namespace StoreCS.API
             builder.Services.AddDbContext<StoreDbContext>(
                 options => options.UseSqlServer(connectionString));
 
-   
-
-
             // Add services to the container.
 
             builder.Services.InstallRepositories();
