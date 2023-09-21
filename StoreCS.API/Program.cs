@@ -18,15 +18,16 @@ builder.Services.AddDbContext<StoreDbContext>(
 // Add services to the container.
 
 builder.Services.InstallRepositories();
+builder.Services.SeedData();
 
 builder.Services.AddControllers().AddJsonOptions(x =>
-    x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
+    {
+        x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+    });
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
-builder.Services.SeedData();
 
 var app = builder.Build();
 

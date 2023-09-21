@@ -93,12 +93,12 @@ public static class DataSeeder
     // We can create another service layer and we can create an OrderService for it, but for now it is ok. I reckon.
     private static double CountTotalPriceForOrder(Order order)
     {
-        double? result = 0;
+        double result = 0;
         foreach (var item in order.OrderItems!)
         {
-            result += item.Quantity * item.Product?.Price;
+            result += (double)(item.Quantity * item.Product?.Price)!;
         }
 
-        return (double)result;
+        return result;
     }
 }
